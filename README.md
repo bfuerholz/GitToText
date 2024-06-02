@@ -15,7 +15,7 @@ The **Awesome Repo to Text App** is a web application that allows users to input
 
 ## Demo
 
-A live demo of the application can be found [here](https://your-vercel-deployment-link).
+A live demo of the application can be found [here](https://git-to-text.vercel.app).
 
 ## Prerequisites
 
