@@ -1,8 +1,8 @@
-# Git to Text App
+# Awesome Repo to Text App
 
 ## Overview
 
-The **Git to text APP** is a web application that allows users to input a GitHub repository URL and optionally a documentation URL to generate a text file with the repository's content. This application consists of a Python backend built with Flask and a frontend built with React. It is designed to be deployed on Vercel.
+The **Awesome Repo to Text App** is a web application that allows users to input a GitHub repository URL and optionally a documentation URL to generate a text file with the repository's content. This application consists of a Python backend built with Flask and a frontend built with React. It is designed to be deployed on Vercel.
 
 ## Features
 
@@ -10,6 +10,8 @@ The **Git to text APP** is a web application that allows users to input a GitHub
 - Optional inclusion of additional documentation.
 - Select specific file types to include in the output.
 - Generate a text file with the repository's content.
+- Dark and light mode for the user interface.
+- Copy generated text to the clipboard.
 
 ## Demo
 
@@ -82,7 +84,7 @@ A live demo of the application can be found [here](https://your-vercel-deploymen
 ## Project Structure
 
 ```plaintext
-repo-to-text-app/
+awesome-repo-to-text-app/
 ├── backend/
 │   ├── RepoToText.py
 │   ├── requirements.txt
