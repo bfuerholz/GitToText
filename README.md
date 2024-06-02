@@ -1,8 +1,8 @@
-# Repo to Text App
+# Git to Text App
 
 ## Overview
 
-The **Repo to Text App** is a web application that allows users to input a GitHub repository URL and optionally a documentation URL to generate a text file with the repository's content. This application consists of a Python backend built with Flask and a frontend built with React. It is designed to be deployed on Vercel.
+The **Git to text APP** is a web application that allows users to input a GitHub repository URL and optionally a documentation URL to generate a text file with the repository's content. This application consists of a Python backend built with Flask and a frontend built with React. It is designed to be deployed on Vercel.
 
 ## Features
 
