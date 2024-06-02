@@ -1,19 +1,23 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "backend/*.py",
-        "use": "@vercel/python"
-      },
-      {
-        "src": "frontend/package.json",
-        "use": "@vercel/static-build"
-      }
-    ],
-    "routes": [
-      { "src": "/api/(.*)", "dest": "/api/scrape" },
-      { "src": "/(.*)", "dest": "/index.html" }
-    ]
-  }
-
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "backend/RepoToText.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/RepoToText.py"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ]
+}
