@@ -57,6 +57,7 @@ function App() {
     }
   };
   
+  
 
   const handleCopyText = () => {
     const outputArea = document.querySelector('.outputArea');
