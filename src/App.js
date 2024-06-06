@@ -83,8 +83,6 @@ function App() {
         <div className="fileSelectionContainer">
           <div>
             <input
-              type="```jsx
-            <input
               type="radio"
               value="all"
               checked={fileSelection === 'all'}
