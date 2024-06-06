@@ -46,7 +46,7 @@ function App() {
       fileTypesToSend = FILE_TYPES;
     }
     try {
-      const result = await axios.post('http://127.0.0.1:5000/scrape', {
+      const result = await axios.post('https://git-to-text-backend.vercel.app/scrape', { // Update this line
         repoUrl,
         docUrl,
         selectedFileTypes: fileTypesToSend,
@@ -56,6 +56,7 @@ function App() {
       console.error(error);
     }
   };
+  
 
   const handleCopyText = () => {
     const outputArea = document.querySelector('.outputArea');
