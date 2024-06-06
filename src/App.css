@@ -1,0 +1,132 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.inputContainer,
+.outputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.inputArea,
+.smallInputArea {
+  height: auto;
+  max-width: 600px;
+  margin: 10px 0;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+}
+
+.smallInputArea {
+  max-width: 400px;
+  padding: 10px;
+  font-size: 0.85em;
+  margin-right: 10px;
+}
+.fileSelectionContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 10px 0;
+}
+
+.fileSelectionContainer div {
+  display: flex;
+  align-items: center;
+}
+
+.fileSelectionContainer label {
+  margin-left: 5px;
+}
+
+.fileTypesContainer {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 1px;
+  margin-bottom: 20px;
+}
+
+.fileTypesContainer div {
+  display: flex;
+  align-items: center;
+}
+
+.fileTypesContainer label {
+  margin-left: 5px;
+}
+
+.outputArea {
+  height: 50vh;
+  margin: 10px 0;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.transformButton,
+.addButton {
+  font-size: 1em;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  background-color: #007bff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.transformButton:hover,
+.addButton:hover {
+  background-color: #0056b3;
+}
+
+.addButton {
+  padding: 5px 10px;
+  font-size: 0.85em;
+}
+
+.copyButton {
+  font-size: 1em;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  color: white;
+  background-color: #007bff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.copyButton:hover {
+  background-color: #0056b3;
+}
+
+/* Dark mode */
+.dark-mode {
+  background-color: #333;
+  color: white;
+}
+
+.dark-mode .inputArea, .dark-mode .smallInputArea, .dark-mode .outputArea {
+  background-color: #555;
+  color: white;
+  border-color: #888;
+}

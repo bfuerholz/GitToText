@@ -1,0 +1,6 @@
+pygithub
+beautifulsoup4
+requests
+flask
+flask_cors
+retry

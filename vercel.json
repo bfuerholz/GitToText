@@ -2,24 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/RepoToText.py",
-      "use": "@vercel/python"
+      "src": "package.json",
+      "use": "@vercel/static-build"
     },
     {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build"
+      "src": "RepoToText.py",
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/backend/RepoToText.py"
+      "dest": "/RepoToText.py"
     },
     {
       "src": "/(.*)",
-      "dest": "/frontend/$1"
+      "dest": "/index.html"
     }
   ]
 }
-
-

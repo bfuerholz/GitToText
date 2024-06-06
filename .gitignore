@@ -1,4 +1,13 @@
-node_modules
-build
+**/node_modules
+/.vscode
+/myenv
+
+# local env files
+.env.local
+.env.*.local
 .env
-__pycache__
+
+reportWebVitals.js
+setupTests.js
+/data
+/notes
