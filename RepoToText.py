@@ -1,14 +1,15 @@
-import sys
+import argparse
 import os
 from datetime import datetime
 import re
 from github import Github, RateLimitExceededException
 from bs4 import BeautifulSoup
-import requests
 from requests.exceptions import RequestException
+import requests
 from retry import retry
 
 class GithubRepoScraper:
+    """Scrape GitHub repositories."""
     def __init__(self, repo_name, doc_link=None, selected_file_types=None):
         if selected_file_types is None:
             selected_file_types = []
@@ -19,12 +20,14 @@ class GithubRepoScraper:
 
     @retry(RateLimitExceededException, tries=5, delay=2, backoff=2)
     def fetch_all_files(self):
+        """Fetch all files from the GitHub repository."""
         def recursive_fetch_files(repo, contents):
             files_data = []
             for content_file in contents:
                 if content_file.type == "dir":
                     files_data += recursive_fetch_files(repo, repo.get_contents(content_file.path))
                 else:
+                    # Check if file type is in selected file types
                     if any(content_file.name.endswith(file_type) for file_type in self.selected_file_types):
                         file_content = ""
                         file_content += f"\n'''--- {content_file.path} ---\n"
@@ -32,12 +35,14 @@ class GithubRepoScraper:
                         if content_file.encoding == "base64":
                             try:
                                 file_content += content_file.decoded_content.decode("utf-8")
-                            except UnicodeDecodeError:
+                            except UnicodeDecodeError: # catch decoding errors
                                 file_content += "[Content not decodable]"
                         elif content_file.encoding == "none":
+                            # Handle files with encoding "none" here
                             print(f"Warning: Skipping {content_file.path} due to unsupported encoding 'none'.")
                             continue
                         else:
+                            # Handle other unexpected encodings here
                             print(f"Warning: Skipping {content_file.path} due to unexpected encoding '{content_file.encoding}'.")
                             continue
 
@@ -52,6 +57,7 @@ class GithubRepoScraper:
         return files_data
 
     def scrape_doc(self):
+        """Scrape webpage."""
         if not self.doc_link:
             return ""
         try:
@@ -63,6 +69,7 @@ class GithubRepoScraper:
             return ""
 
     def write_to_file(self, files_data):
+        """Built .txt file with all of the repo's files"""
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         filename = f"/app/data/{self.repo_name.replace('/', '_')}_{timestamp}.txt"
         with open(filename, "w", encoding='utf-8') as f:
@@ -76,6 +83,7 @@ class GithubRepoScraper:
         return filename
 
     def clean_up_text(self, filename):
+        """Remove line breaks after 2."""
         with open(filename, 'r', encoding='utf-8') as f:
             text = f.read()
         cleaned_text = re.sub('\n{3,}', '\n\n', text)
@@ -83,6 +91,7 @@ class GithubRepoScraper:
             f.write(cleaned_text)
 
     def run(self):
+        """Run RepoToText."""
         print("Fetching all files...")
         files_data = self.fetch_all_files()
 
@@ -96,10 +105,5 @@ class GithubRepoScraper:
         return filename
 
 if __name__ == "__main__":
-    repo_url = sys.argv[1]
-    doc_url = sys.argv[2] if len(sys.argv) > 2 else None
-    repo_name = repo_url.split('github.com/')[-1]
-    scraper = GithubRepoScraper(repo_name, doc_url, ['.py', '.js', '.txt', '.md'])
-    output_file = scraper.run()
-    with open(output_file, 'r', encoding='utf-8') as file:
-        print(file.read())
+    parser = argparse.ArgumentParser(description='Scrape GitHub repo and generate text file.')
+    parser.add_argument('--repo')

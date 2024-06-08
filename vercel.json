@@ -1,11 +1,12 @@
 {
   "version": 2,
   "builds": [
-    { "src": "server.js", "use": "@vercel/node" },
-    { "src": "src/**/*", "use": "@vercel/static-build", "config": { "distDir": "build" } }
+    { "src": "src/**/*", "use": "@vercel/node" },
+    { "src": "public/**/*", "use": "@vercel/static" },
+    { "src": "api/scrape.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/api/scrape", "dest": "/server.js" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    { "src": "/api/scrape", "dest": "/api/scrape.js" },
+    { "src": "/(.*)", "dest": "/public/$1" }
   ]
 }
