@@ -1,6 +1,6 @@
 {
-  "short_name": "RepoToText",
-  "name": "RepoToText App",
+  "short_name": "GitToText",
+  "name": "GitToText App",
   "icons": [
     {
       "src": "favicon.ico",
