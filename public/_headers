@@ -1,11 +1,5 @@
-/manifest.json
-  Content-Type: application/manifest+json
-
-/logo192.png
-  Content-Type: image/png
-
-/logo512.png
-  Content-Type: image/png
-
-/favicon.ico
-  Content-Type: image/x-icon
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Feature-Policy: accelerometer 'none'; ambient-light-sensor 'none'; autoplay 'none'; camera 'none'; encrypted-media 'none'; geolocation 'none'; gyroscope 'none'; magnetometer 'none'; microphone 'none'; midi 'none'; payment 'none'; speaker 'none'; usb 'none'; vr 'none'
