@@ -58,7 +58,7 @@ function App() {
     '.vb',
     '.vbs',
     '.xhtml',
-    '.xsl'
+    '.xsl',
   ];
 
   console.log('App loaded');
@@ -69,7 +69,7 @@ function App() {
     selectedFileTypes,
     fileSelection,
     customFileType,
-    isDarkMode
+    isDarkMode,
   });
 
   const handleRepoChange = (e) => {
@@ -116,13 +116,13 @@ function App() {
     console.log('Submitting form with data', {
       repoUrl,
       docUrl,
-      fileTypesToSend
+      fileTypesToSend,
     });
     try {
       const result = await axios.post('/api/scrape', {
         repoUrl,
         docUrl,
-        selectedFileTypes: fileTypesToSend
+        selectedFileTypes: fileTypesToSend,
       });
       setResponse(result.data.response);
       console.log('Response received');
