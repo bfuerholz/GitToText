@@ -7,7 +7,8 @@
 .env.*.local
 .env
 
-reportWebVitals.js
-setupTests.js
+# Remove the following lines to stop ignoring these files
+# reportWebVitals.js
+# setupTests.js
 /data
 /notes
