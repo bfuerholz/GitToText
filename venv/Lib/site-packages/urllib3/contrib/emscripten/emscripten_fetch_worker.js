@@ -9,7 +9,7 @@ let connections = {};
 let nextConnectionID = 1;
 const encoder = new TextEncoder();
 
-self.addEventListener("message", async function (event) {
+self.addEventListener('message', async function (event) {
   if (event.data.close) {
     let connectionID = event.data.close;
     delete connections[connectionID];
@@ -37,7 +37,7 @@ self.addEventListener("message", async function (event) {
         connections[connectionID].value = readResponse.value;
         value = readResponse.value;
       } catch (error) {
-        console.log("Request exception:", error);
+        console.log('Request exception:', error);
         let errorBytes = encoder.encode(error.message);
         let written = errorBytes.length;
         byteBuffer.set(errorBytes);
@@ -97,7 +97,7 @@ self.addEventListener("message", async function (event) {
       // all fetching after this goes through a new postmessage call with getMore
       // this allows for parallel requests
     } catch (error) {
-      console.log("Request exception:", error);
+      console.log('Request exception:', error);
       let errorBytes = encoder.encode(error.message);
       let written = errorBytes.length;
       byteBuffer.set(errorBytes);

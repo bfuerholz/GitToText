@@ -1,4 +1,3 @@
-
 # RepoToText
 
 ![Build Status](https://github.com/bfuerholz/GitToText/actions/workflows/build.yml/badge.svg)

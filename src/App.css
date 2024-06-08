@@ -125,7 +125,9 @@
   color: white;
 }
 
-.dark-mode .inputArea, .dark-mode .smallInputArea, .dark-mode .outputArea {
+.dark-mode .inputArea,
+.dark-mode .smallInputArea,
+.dark-mode .outputArea {
   background-color: #555;
   color: white;
   border-color: #888;
