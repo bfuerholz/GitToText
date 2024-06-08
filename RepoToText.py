@@ -4,7 +4,6 @@ from datetime import datetime
 import re
 from github import Github, RateLimitExceededException
 from bs4 import BeautifulSoup
-from requests.exceptions import RequestException
 import requests
 from retry import retry
 
@@ -64,7 +63,7 @@ class GithubRepoScraper:
             page = requests.get(self.doc_link, timeout=10)
             soup = BeautifulSoup(page.content, 'html.parser')
             return soup.get_text(separator="\n")
-        except RequestException as e:
+        except requests.RequestException as e:
             print(f"Error fetching documentation: {e}")
             return ""
 
