@@ -106,4 +106,13 @@ class GithubRepoScraper:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Scrape GitHub repo and generate text file.')
-    parser.add_argument('--repo')
+    parser.add_argument('--repo_url', type=str, required=True, help='GitHub repository URL')
+    parser.add_argument('--doc_url', type=str, required=False, help='Documentation URL')
+    parser.add_argument('--file_types', type=str, required=False, help='Comma separated list of file types')
+
+    args = parser.parse_args()
+    repo_name = args.repo_url.split('github.com/')[-1]
+    selected_file_types = args.file_types.split(',') if args.file_types else []
+
+    scraper = GithubRepoScraper(repo_name, args.doc_url, selected_file_types)
+    scraper.run()
