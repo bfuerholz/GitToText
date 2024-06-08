@@ -61,9 +61,16 @@ function App() {
     '.xsl',
   ];
 
-  const handleRepoChange = (e) => setRepoUrl(e.target.value);
-  const handleDocChange = (e) => setDocUrl(e.target.value);
+  const handleRepoChange = (e) => {
+    console.log('Repository URL changed:', e.target.value);
+    setRepoUrl(e.target.value);
+  };
+  const handleDocChange = (e) => {
+    console.log('Documentation URL changed:', e.target.value);
+    setDocUrl(e.target.value);
+  };
   const handleFileTypeChange = (e) => {
+    console.log('File type changed:', e.target.value);
     if (e.target.checked) {
       setSelectedFileTypes([...selectedFileTypes, e.target.value]);
     } else {
@@ -73,9 +80,13 @@ function App() {
     }
   };
 
-  const handleFileSelectionChange = (e) => setFileSelection(e.target.value);
+  const handleFileSelectionChange = (e) => {
+    console.log('File selection changed:', e.target.value);
+    setFileSelection(e.target.value);
+  };
 
   const handleAddFileType = () => {
+    console.log('Adding custom file type:', customFileType);
     if (customFileType && !FILE_TYPES.includes(customFileType)) {
       FILE_TYPES.push(customFileType);
     }
@@ -84,6 +95,11 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Submitting form with data:', {
+      repoUrl,
+      docUrl,
+      selectedFileTypes,
+    });
     let fileTypesToSend = selectedFileTypes;
     if (fileSelection === 'all') {
       fileTypesToSend = FILE_TYPES;
@@ -94,19 +110,24 @@ function App() {
         docUrl,
         selectedFileTypes: fileTypesToSend,
       });
+      console.log('Response received:', result.data);
       setResponse(result.data.response);
     } catch (error) {
-      console.error(error);
+      console.error('Error during submission:', error);
     }
   };
 
   const handleCopyText = () => {
+    console.log('Copying text to clipboard');
     const outputArea = document.querySelector('.outputArea');
     outputArea.select();
     document.execCommand('copy');
   };
 
-  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+  const toggleTheme = () => {
+    console.log('Toggling theme');
+    setIsDarkMode(!isDarkMode);
+  };
 
   return (
     <div className={`container ${isDarkMode ? 'dark-mode' : ''}`}>
