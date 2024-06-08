@@ -16,6 +16,22 @@
       "dest": "/RepoToText.py"
     },
     {
+      "src": "/favicon.ico",
+      "dest": "/public/favicon.ico"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/public/manifest.json"
+    },
+    {
+      "src": "/logo192.png",
+      "dest": "/public/logo192.png"
+    },
+    {
+      "src": "/logo512.png",
+      "dest": "/public/logo512.png"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
