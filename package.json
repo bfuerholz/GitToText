@@ -1,5 +1,5 @@
 {
-  "name": "repo-to-text",
+  "name": "gittotext",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
