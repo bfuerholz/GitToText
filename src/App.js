@@ -61,48 +61,23 @@ function App() {
     '.xsl',
   ];
 
-  console.log('App loaded');
-  console.log('Initial state', {
-    repoUrl,
-    docUrl,
-    response,
-    selectedFileTypes,
-    fileSelection,
-    customFileType,
-    isDarkMode,
-  });
-
-  const handleRepoChange = (e) => {
-    setRepoUrl(e.target.value);
-    console.log('Repo URL changed');
-  };
-
-  const handleDocChange = (e) => {
-    setDocUrl(e.target.value);
-    console.log('Doc URL changed');
-  };
-
+  const handleRepoChange = (e) => setRepoUrl(e.target.value);
+  const handleDocChange = (e) => setDocUrl(e.target.value);
   const handleFileTypeChange = (e) => {
     if (e.target.checked) {
       setSelectedFileTypes([...selectedFileTypes, e.target.value]);
-      console.log('File type selected');
     } else {
       setSelectedFileTypes(
         selectedFileTypes.filter((fileType) => fileType !== e.target.value)
       );
-      console.log('File type deselected');
     }
   };
 
-  const handleFileSelectionChange = (e) => {
-    setFileSelection(e.target.value);
-    console.log('File selection changed');
-  };
+  const handleFileSelectionChange = (e) => setFileSelection(e.target.value);
 
   const handleAddFileType = () => {
     if (customFileType && !FILE_TYPES.includes(customFileType)) {
       FILE_TYPES.push(customFileType);
-      console.log('Custom file type added');
     }
     setCustomFileType('');
   };
@@ -113,11 +88,6 @@ function App() {
     if (fileSelection === 'all') {
       fileTypesToSend = FILE_TYPES;
     }
-    console.log('Submitting form with data', {
-      repoUrl,
-      docUrl,
-      fileTypesToSend,
-    });
     try {
       const result = await axios.post('/api/scrape', {
         repoUrl,
@@ -125,9 +95,8 @@ function App() {
         selectedFileTypes: fileTypesToSend,
       });
       setResponse(result.data.response);
-      console.log('Response received');
     } catch (error) {
-      console.error('Error during submission', error);
+      console.error(error);
     }
   };
 
@@ -135,13 +104,9 @@ function App() {
     const outputArea = document.querySelector('.outputArea');
     outputArea.select();
     document.execCommand('copy');
-    console.log('Text copied to clipboard');
   };
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    console.log('Theme toggled');
-  };
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
   return (
     <div className={`container ${isDarkMode ? 'dark-mode' : ''}`}>
