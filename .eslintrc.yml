@@ -11,5 +11,5 @@ plugins:
   - react
 settings:
   react:
-    version: "detect"
+    version: 'detect'
 rules: {}
