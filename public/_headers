@@ -1,0 +1,11 @@
+/manifest.json
+  Content-Type: application/manifest+json
+
+/logo192.png
+  Content-Type: image/png
+
+/logo512.png
+  Content-Type: image/png
+
+/favicon.ico
+  Content-Type: image/x-icon
