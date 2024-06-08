@@ -58,7 +58,7 @@ function App() {
     '.vb',
     '.vbs',
     '.xhtml',
-    '.xsl',
+    '.xsl'
   ];
 
   console.log('App loaded');
@@ -69,7 +69,7 @@ function App() {
     selectedFileTypes,
     fileSelection,
     customFileType,
-    isDarkMode,
+    isDarkMode
   });
 
   const handleRepoChange = (e) => {
@@ -88,9 +88,7 @@ function App() {
       console.log('File type selected');
     } else {
       setSelectedFileTypes(
-        selectedFileTypes.filter(
-          (fileType) => fileType !== e.target.value
-        )
+        selectedFileTypes.filter((fileType) => fileType !== e.target.value)
       );
       console.log('File type deselected');
     }
@@ -102,10 +100,7 @@ function App() {
   };
 
   const handleAddFileType = () => {
-    if (
-      customFileType &&
-      !FILE_TYPES.includes(customFileType)
-    ) {
+    if (customFileType && !FILE_TYPES.includes(customFileType)) {
       FILE_TYPES.push(customFileType);
       console.log('Custom file type added');
     }
@@ -121,13 +116,13 @@ function App() {
     console.log('Submitting form with data', {
       repoUrl,
       docUrl,
-      fileTypesToSend,
+      fileTypesToSend
     });
     try {
       const result = await axios.post('/api/scrape', {
         repoUrl,
         docUrl,
-        selectedFileTypes: fileTypesToSend,
+        selectedFileTypes: fileTypesToSend
       });
       setResponse(result.data.response);
       console.log('Response received');
@@ -137,9 +132,7 @@ function App() {
   };
 
   const handleCopyText = () => {
-    const outputArea = document.querySelector(
-      '.outputArea'
-    );
+    const outputArea = document.querySelector('.outputArea');
     outputArea.select();
     document.execCommand('copy');
     console.log('Text copied to clipboard');
@@ -151,11 +144,7 @@ function App() {
   };
 
   return (
-    <div
-      className={`container ${
-        isDarkMode ? 'dark-mode' : ''
-      }`}
-    >
+    <div className={`container ${isDarkMode ? 'dark-mode' : ''}`}>
       <div className="inputContainer">
         <input
           value={repoUrl}
@@ -204,16 +193,11 @@ function App() {
             <div>
               <input
                 value={customFileType}
-                onChange={(e) =>
-                  setCustomFileType(e.target.value)
-                }
+                onChange={(e) => setCustomFileType(e.target.value)}
                 placeholder="Enter new file type"
                 className="smallInputArea"
               />
-              <button
-                onClick={handleAddFileType}
-                className="addButton"
-              >
+              <button onClick={handleAddFileType} className="addButton">
                 Add
               </button>
             </div>
@@ -221,31 +205,18 @@ function App() {
         )}
       </div>
       <div className="buttonContainer">
-        <button
-          onClick={handleSubmit}
-          className="transformButton"
-        >
+        <button onClick={handleSubmit} className="transformButton">
           Submit
         </button>
-        <button
-          onClick={handleCopyText}
-          className="copyButton"
-        >
+        <button onClick={handleCopyText} className="copyButton">
           Copy Text
         </button>
-        <button
-          onClick={toggleTheme}
-          className="toggleThemeButton"
-        >
+        <button onClick={toggleTheme} className="toggleThemeButton">
           {isDarkMode ? 'Light Mode' : 'Dark Mode'}
         </button>
       </div>
       <div className="outputContainer">
-        <textarea
-          value={response}
-          readOnly
-          className="outputArea"
-        />
+        <textarea value={response} readOnly className="outputArea" />
       </div>
     </div>
   );
