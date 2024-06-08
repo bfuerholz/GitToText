@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Analytics } from '@vercel/analytics/react';
 
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
@@ -12,5 +13,6 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
 
 reportWebVitals();

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Analytics } from '@vercel/analytics/react';
 import './App.css';
 
 function App() {
@@ -62,24 +61,39 @@ function App() {
     '.xsl',
   ];
 
-  const handleRepoChange = (e) => setRepoUrl(e.target.value);
-  const handleDocChange = (e) => setDocUrl(e.target.value);
+  console.log("App loaded");
+  console.log("Initial state", { repoUrl, docUrl, response, selectedFileTypes, fileSelection, customFileType, isDarkMode });
+
+  const handleRepoChange = (e) => {
+    console.log("Repo URL changed", e.target.value);
+    setRepoUrl(e.target.value);
+  };
+
+  const handleDocChange = (e) => {
+    console.log("Doc URL changed", e.target.value);
+    setDocUrl(e.target.value);
+  };
+
   const handleFileTypeChange = (e) => {
     if (e.target.checked) {
+      console.log("File type selected", e.target.value);
       setSelectedFileTypes([...selectedFileTypes, e.target.value]);
     } else {
-      setSelectedFileTypes(
-        selectedFileTypes.filter((fileType) => fileType !== e.target.value)
-      );
+      console.log("File type deselected", e.target.value);
+      setSelectedFileTypes(selectedFileTypes.filter((fileType) => fileType !== e.target.value));
     }
   };
 
-  const handleFileSelectionChange = (e) => setFileSelection(e.target.value);
+  const handleFileSelectionChange = (e) => {
+    console.log("File selection changed", e.target.value);
+    setFileSelection(e.target.value);
+  };
 
   const handleAddFileType = () => {
     if (customFileType && !FILE_TYPES.includes(customFileType)) {
       FILE_TYPES.push(customFileType);
     }
+    console.log("Custom file type added", customFileType);
     setCustomFileType('');
   };
 
@@ -89,15 +103,17 @@ function App() {
     if (fileSelection === 'all') {
       fileTypesToSend = FILE_TYPES;
     }
+    console.log("Submitting form with data", { repoUrl, docUrl, fileTypesToSend });
     try {
       const result = await axios.post('/api/scrape', {
         repoUrl,
         docUrl,
         selectedFileTypes: fileTypesToSend,
       });
+      console.log("Response received", result.data.response);
       setResponse(result.data.response);
     } catch (error) {
-      console.error(error);
+      console.error("Error during submission", error);
     }
   };
 
@@ -105,9 +121,13 @@ function App() {
     const outputArea = document.querySelector('.outputArea');
     outputArea.select();
     document.execCommand('copy');
+    console.log("Text copied to clipboard");
   };
 
-  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    console.log("Theme toggled", isDarkMode ? 'Dark' : 'Light');
+  };
 
   return (
     <div className={`container ${isDarkMode ? 'dark-mode' : ''}`}>
@@ -184,7 +204,6 @@ function App() {
       <div className="outputContainer">
         <textarea value={response} readOnly className="outputArea" />
       </div>
-      <Analytics />
     </div>
   );
 }
