@@ -68,7 +68,7 @@ function App() {
       setSelectedFileTypes([...selectedFileTypes, e.target.value]);
     } else {
       setSelectedFileTypes(
-        selectedFileTypes.filter((fileType) => fileType !== e.target.value)
+        selectedFileTypes.filter((fileType) => fileType !== e.target.value),
       );
     }
   };
