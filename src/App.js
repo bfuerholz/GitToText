@@ -1,64 +1,22 @@
-import React, { useState } from "react";
-import axios from "axios";
-import "./App.css";
+import React, { useState } from 'react';
+import axios from 'axios';
+import './App.css';
 
 function App() {
-  const [repoUrl, setRepoUrl] = useState("");
-  const [docUrl, setDocUrl] = useState("");
-  const [response, setResponse] = useState("");
+  const [repoUrl, setRepoUrl] = useState('');
+  const [docUrl, setDocUrl] = useState('');
+  const [response, setResponse] = useState('');
   const [selectedFileTypes, setSelectedFileTypes] = useState([]);
-  const [fileSelection, setFileSelection] = useState("all");
-  const [customFileType, setCustomFileType] = useState("");
+  const [fileSelection, setFileSelection] = useState('all');
+  const [customFileType, setCustomFileType] = useState('');
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const FILE_TYPES = [
-    ".txt",
-    ".py",
-    ".js",
-    ".sql",
-    ".env",
-    ".json",
-    ".html",
-    ".css",
-    ".md",
-    ".java",
-    ".cpp",
-    ".c",
-    ".cs",
-    ".php",
-    ".rb",
-    ".xml",
-    ".yml",
-    ".sh",
-    ".swift",
-    ".h",
-    ".pyw",
-    ".asm",
-    ".bat",
-    ".cmd",
-    ".cls",
-    ".coffee",
-    ".erb",
-    ".go",
-    ".groovy",
-    ".htaccess",
-    ".jsp",
-    ".lua",
-    ".make",
-    ".matlab",
-    ".pas",
-    ".perl",
-    ".pl",
-    ".ps1",
-    ".r",
-    ".scala",
-    ".scm",
-    ".sln",
-    ".svg",
-    ".vb",
-    ".vbs",
-    ".xhtml",
-    ".xsl",
+    '.txt', '.py', '.js', '.sql', '.env', '.json', '.html', '.css', '.md',
+    '.java', '.cpp', '.c', '.cs', '.php', '.rb', '.xml', '.yml', '.sh', '.swift',
+    '.h', '.pyw', '.asm', '.bat', '.cmd', '.cls', '.coffee', '.erb', '.go', '.groovy',
+    '.htaccess', '.jsp', '.lua', '.make', '.matlab', '.pas', '.perl', '.pl', '.ps1',
+    '.r', '.scala', '.scm', '.sln', '.svg', '.vb', '.vbs', '.xhtml', '.xsl',
   ];
 
   const handleRepoChange = (e) => setRepoUrl(e.target.value);
@@ -68,7 +26,7 @@ function App() {
       setSelectedFileTypes([...selectedFileTypes, e.target.value]);
     } else {
       setSelectedFileTypes(
-        selectedFileTypes.filter((fileType) => fileType !== e.target.value),
+        selectedFileTypes.filter((fileType) => fileType !== e.target.value)
       );
     }
   };
@@ -79,27 +37,22 @@ function App() {
     if (customFileType && !FILE_TYPES.includes(customFileType)) {
       FILE_TYPES.push(customFileType);
     }
-    setCustomFileType("");
+    setCustomFileType('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     let fileTypesToSend = selectedFileTypes;
-    if (fileSelection === "all") {
+    if (fileSelection === 'all') {
       fileTypesToSend = FILE_TYPES;
     }
-    console.log("Submitting form with data:", {
-      repoUrl,
-      docUrl,
-      selectedFileTypes: fileTypesToSend,
-    });
     try {
-      const result = await axios.post("http://localhost:5000/scrape", {
+      console.log("Submitting form with data:", { repoUrl, docUrl, selectedFileTypes: fileTypesToSend });
+      const result = await axios.post('http://localhost:5000/scrape', {
         repoUrl,
         docUrl,
         selectedFileTypes: fileTypesToSend,
       });
-      console.log("Response received:", result.data.response);
       setResponse(result.data.response);
     } catch (error) {
       console.error("Error during submission:", error);
@@ -107,19 +60,15 @@ function App() {
   };
 
   const handleCopyText = () => {
-    const outputArea = document.querySelector(".outputArea");
+    const outputArea = document.querySelector('.outputArea');
     outputArea.select();
-    document.execCommand("copy");
-    console.log("Text copied to clipboard");
+    document.execCommand('copy');
   };
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    console.log("Theme toggled");
-  };
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
 
   return (
-    <div className={`container ${isDarkMode ? "dark-mode" : ""}`}>
+    <div className={`container ${isDarkMode ? 'dark-mode' : ''}`}>
       <div className="inputContainer">
         <input
           value={repoUrl}
@@ -138,7 +87,7 @@ function App() {
             <input
               type="radio"
               value="all"
-              checked={fileSelection === "all"}
+              checked={fileSelection === 'all'}
               onChange={handleFileSelectionChange}
             />
             <label>All Files</label>
@@ -147,13 +96,13 @@ function App() {
             <input
               type="radio"
               value="select"
-              checked={fileSelection === "select"}
+              checked={fileSelection === 'select'}
               onChange={handleFileSelectionChange}
             />
             <label>Select File Types</label>
           </div>
         </div>
-        {fileSelection === "select" && (
+        {fileSelection === 'select' && (
           <div className="fileTypesContainer">
             {FILE_TYPES.map((fileType, index) => (
               <div key={index}>
@@ -187,7 +136,7 @@ function App() {
           Copy Text
         </button>
         <button onClick={toggleTheme} className="toggleThemeButton">
-          {isDarkMode ? "Light Mode" : "Dark Mode"}
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
         </button>
       </div>
       <div className="outputContainer">
