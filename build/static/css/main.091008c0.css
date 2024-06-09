@@ -1,2 +1,143 @@
-body{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;margin:0}code{font-family:source-code-pro,Menlo,Monaco,Consolas,Courier New,monospace}.container{box-sizing:border-box;display:flex;flex-direction:column;font-family:Arial,sans-serif;height:100vh;justify-content:space-between;padding:20px}.inputContainer,.outputContainer{display:flex;flex-direction:column;width:100%}.inputArea,.smallInputArea{border:1px solid #ccc;border-radius:5px;box-sizing:border-box;font-size:1em;height:auto;margin:10px 0;max-width:600px;padding:20px}.smallInputArea{font-size:.85em;margin-right:10px;max-width:400px;padding:10px}.fileSelectionContainer{gap:20px;margin:10px 0}.fileSelectionContainer,.fileSelectionContainer div{align-items:center;display:flex}.fileSelectionContainer label{margin-left:5px}.fileTypesContainer{grid-gap:1px;display:grid;gap:1px;grid-template-columns:repeat(8,1fr);margin-bottom:20px;margin-top:10px}.fileTypesContainer div{align-items:center;display:flex}.fileTypesContainer label{margin-left:5px}.outputArea{border:1px solid #ccc;border-radius:5px;box-sizing:border-box;font-size:1em;height:50vh;margin:10px 0;padding:20px}.buttonContainer{align-items:flex-start;display:flex;gap:10px}.addButton,.transformButton{background-color:#007bff;border:none;border-radius:5px;color:#fff;cursor:pointer;font-size:1em;padding:10px 20px;transition:background-color .3s ease}.addButton:hover,.transformButton:hover{background-color:#0056b3}.addButton{font-size:.85em;padding:5px 10px}.copyButton{background-color:#007bff;border:none;border-radius:5px;color:#fff;cursor:pointer;font-size:1em;padding:10px 20px;transition:background-color .3s ease}.copyButton:hover{background-color:#0056b3}.dark-mode{background-color:#333;color:#fff}.dark-mode .inputArea,.dark-mode .outputArea,.dark-mode .smallInputArea{background-color:#555;border-color:#888;color:#fff}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    Fira Sans,
+    Droid Sans,
+    Helvetica Neue,
+    sans-serif;
+  margin: 0;
+}
+code {
+  font-family:
+    source-code-pro,
+    Menlo,
+    Monaco,
+    Consolas,
+    Courier New,
+    monospace;
+}
+.container {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  justify-content: space-between;
+  padding: 20px;
+}
+.inputContainer,
+.outputContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.inputArea,
+.smallInputArea {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1em;
+  height: auto;
+  margin: 10px 0;
+  max-width: 600px;
+  padding: 20px;
+}
+.smallInputArea {
+  font-size: 0.85em;
+  margin-right: 10px;
+  max-width: 400px;
+  padding: 10px;
+}
+.fileSelectionContainer {
+  gap: 20px;
+  margin: 10px 0;
+}
+.fileSelectionContainer,
+.fileSelectionContainer div {
+  align-items: center;
+  display: flex;
+}
+.fileSelectionContainer label {
+  margin-left: 5px;
+}
+.fileTypesContainer {
+  grid-gap: 1px;
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(8, 1fr);
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+.fileTypesContainer div {
+  align-items: center;
+  display: flex;
+}
+.fileTypesContainer label {
+  margin-left: 5px;
+}
+.outputArea {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 1em;
+  height: 50vh;
+  margin: 10px 0;
+  padding: 20px;
+}
+.buttonContainer {
+  align-items: flex-start;
+  display: flex;
+  gap: 10px;
+}
+.addButton,
+.transformButton {
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1em;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+}
+.addButton:hover,
+.transformButton:hover {
+  background-color: #0056b3;
+}
+.addButton {
+  font-size: 0.85em;
+  padding: 5px 10px;
+}
+.copyButton {
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1em;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+}
+.copyButton:hover {
+  background-color: #0056b3;
+}
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+.dark-mode .inputArea,
+.dark-mode .outputArea,
+.dark-mode .smallInputArea {
+  background-color: #555;
+  border-color: #888;
+  color: #fff;
+}
 /*# sourceMappingURL=main.091008c0.css.map*/
