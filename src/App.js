@@ -68,7 +68,7 @@ function App() {
       setSelectedFileTypes([...selectedFileTypes, e.target.value]);
     } else {
       setSelectedFileTypes(
-        selectedFileTypes.filter((fileType) => fileType !== e.target.value),
+        selectedFileTypes.filter((fileType) => fileType !== e.target.value)
       );
     }
   };
@@ -88,15 +88,21 @@ function App() {
     if (fileSelection === "all") {
       fileTypesToSend = FILE_TYPES;
     }
+    console.log("Submitting form with data:", {
+      repoUrl,
+      docUrl,
+      selectedFileTypes: fileTypesToSend,
+    });
     try {
       const result = await axios.post("/api/scrape", {
         repoUrl,
         docUrl,
         selectedFileTypes: fileTypesToSend,
       });
+      console.log("Response received:", result.data.response);
       setResponse(result.data.response);
     } catch (error) {
-      console.error(error);
+      console.error("Error during submission:", error);
     }
   };
 
@@ -104,9 +110,13 @@ function App() {
     const outputArea = document.querySelector(".outputArea");
     outputArea.select();
     document.execCommand("copy");
+    console.log("Text copied to clipboard");
   };
 
-  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    console.log("Theme toggled");
+  };
 
   return (
     <div className={`container ${isDarkMode ? "dark-mode" : ""}`}>
