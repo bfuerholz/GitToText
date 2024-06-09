@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Ensure the 'data' directory exists
-os.makedirs('/app/data', exist_ok=True)
+os.makedirs('data', exist_ok=True)
 
 class GithubRepoScraper:
     """Scrape GitHub repositories."""
@@ -35,12 +35,14 @@ class GithubRepoScraper:
             files_data = []
             for content_file in contents:
                 if content_file.type == "dir":
+                    print(f"Entering directory: {content_file.path}")
                     files_data += recursive_fetch_files(repo, repo.get_contents(content_file.path))
                 else:
                     # Check if file type is in selected file types
                     if any(content_file.name.endswith(file_type) for file_type in self.selected_file_types):
                         file_content = ""
                         file_content += f"\n'''--- {content_file.path} ---\n"
+                        print(f"Fetching file: {content_file.path}")
 
                         if content_file.encoding == "base64":
                             try:
@@ -81,7 +83,7 @@ class GithubRepoScraper:
     def write_to_file(self, files_data):
         """Built .txt file with all of the repo's files"""
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-        filename = f"/app/data/{self.repo_name.replace('/', '_')}_{timestamp}.txt"
+        filename = f"data/{self.repo_name.replace('/', '_')}_{timestamp}.txt"
         print(f"Writing to file: {filename}")
         with open(filename, "w", encoding='utf-8') as f:
             doc_text = self.scrape_doc()
@@ -146,7 +148,4 @@ def scrape():
     return jsonify({"response": file_content})
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
-
-# if __name__ == "__main__": -- UNCOMMENT TO RUN LOCALLY WITHOUT DOCKER
-#     app.run(port=5000)
+    app.run(host='0.0.0.0', port=5000)
