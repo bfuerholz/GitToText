@@ -15,9 +15,6 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-# Ensure the 'data' directory exists
-os.makedirs('data', exist_ok=True)
-
 class GithubRepoScraper:
     """Scrape GitHub repositories."""
     def __init__(self, repo_name, doc_link=None, selected_file_types=None):
@@ -35,14 +32,12 @@ class GithubRepoScraper:
             files_data = []
             for content_file in contents:
                 if content_file.type == "dir":
-                    print(f"Entering directory: {content_file.path}")
                     files_data += recursive_fetch_files(repo, repo.get_contents(content_file.path))
                 else:
                     # Check if file type is in selected file types
                     if any(content_file.name.endswith(file_type) for file_type in self.selected_file_types):
                         file_content = ""
                         file_content += f"\n'''--- {content_file.path} ---\n"
-                        print(f"Fetching file: {content_file.path}")
 
                         if content_file.encoding == "base64":
                             try:
@@ -83,8 +78,7 @@ class GithubRepoScraper:
     def write_to_file(self, files_data):
         """Built .txt file with all of the repo's files"""
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-        filename = f"data/{self.repo_name.replace('/', '_')}_{timestamp}.txt"
-        print(f"Writing to file: {filename}")
+        filename = f"./data/{self.repo_name.replace('/', '_')}_{timestamp}.txt"
         with open(filename, "w", encoding='utf-8') as f:
             doc_text = self.scrape_doc()
             if doc_text:
@@ -105,12 +99,12 @@ class GithubRepoScraper:
 
     def run(self):
         """Run RepoToText."""
-        print("Fetching all files...")
+        print(f"Fetching repository: {self.repo_name}")
         try:
             files_data = self.fetch_all_files()
         except GithubException as e:
-            print(f"GitHub exception: {e}")
-            raise
+            print(f"GitHub exception: {e.data}")
+            return None
 
         print("Writing to file...")
         filename = self.write_to_file(files_data)
@@ -133,14 +127,13 @@ def scrape():
     if not repo_url:
         return jsonify({"error": "Repo URL not provided."}), 400
 
-    repo_name = repo_url.split('github.com/')[-1]  # Extract repo name from URL
+    repo_name = repo_url.split('github.com/')[-1].replace('.git', '')  # Extract repo name from URL
 
-    print(f"Received request to scrape repo: {repo_name}")
     scraper = GithubRepoScraper(repo_name, doc_url, selected_file_types)
-    try:
-        filename = scraper.run()
-    except GithubException as e:
-        return jsonify({"error": str(e)}), 500
+    filename = scraper.run()
+
+    if filename is None:
+        return jsonify({"error": "Failed to fetch repository data."}), 500
 
     with open(filename, 'r', encoding='utf-8') as file:
         file_content = file.read()
@@ -148,4 +141,5 @@ def scrape():
     return jsonify({"response": file_content})
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000)
+    app.run(port=5000)
+
