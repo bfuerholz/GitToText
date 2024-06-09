@@ -3,7 +3,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/bfuerholz/GitToText)](https://github.com/bfuerholz/GitToText/issues)
 [![GitHub forks](https://img.shields.io/github/forks/bfuerholz/GitToText)](https://github.com/bfuerholz/GitToText/network)
 [![GitHub stars](https://img.shields.io/github/stars/bfuerholz/GitToText)](https://github.com/bfuerholz/GitToText/stargazers)
-[![GitHub license](https://img.shields.io/github/license/bfuerholz/GitToText)](https://github.com/bfuerholz/GitToText/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/bfuerholz/GitToText)](https://github.com/bfuerholz/GitToText/LICENSE)
 
 GitToText is a tool designed to fetch all files from a GitHub repository and convert them into a text format for easy reading and documentation purposes.
 
