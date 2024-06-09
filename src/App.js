@@ -94,7 +94,7 @@ function App() {
       selectedFileTypes: fileTypesToSend,
     });
     try {
-      const result = await axios.post("/api/scrape", {
+      const result = await axios.post("http://localhost:5000/scrape", {
         repoUrl,
         docUrl,
         selectedFileTypes: fileTypesToSend,
