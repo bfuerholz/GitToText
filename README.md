@@ -1,7 +1,5 @@
 # RepoToText
 
-![Build Status](https://github.com/bfuerholz/GitToText/actions/workflows/build.yml/badge.svg)
-![License](https://img.shields.io/github/license/bfuerholz/GitToText)
 
 **RepoToText** is a web application that transforms a GitHub repository into a single, well-organized text file. By providing the URL of a GitHub repository and optionally a documentation URL, the app compiles all files and directories of the repository, including the documentation, into one cohesive text file. This text file is perfect for use with language models such as GPT-4, Claude Opus, and others. The generated .txt file is saved in the `/data` directory with timestamps and user information for easy access.
 
