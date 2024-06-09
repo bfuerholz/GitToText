@@ -10,11 +10,13 @@ from requests.exceptions import RequestException
 from retry import retry
 from dotenv import load_dotenv
 
+load_dotenv()
+
 app = Flask(__name__)
 CORS(app)
 
-# Laden der Umgebungsvariablen aus der .env-Datei
-load_dotenv()
+# Ensure the 'data' directory exists
+os.makedirs('/app/data', exist_ok=True)
 
 class GithubRepoScraper:
     """Scrape GitHub repositories."""
@@ -22,8 +24,6 @@ class GithubRepoScraper:
         if selected_file_types is None:
             selected_file_types = []
         self.github_api_key = os.getenv("GITHUB_API_KEY")
-        if not self.github_api_key:
-            raise ValueError("GITHUB_API_KEY is not set in the environment.")
         self.repo_name = repo_name
         self.doc_link = doc_link
         self.selected_file_types = selected_file_types
@@ -37,18 +37,22 @@ class GithubRepoScraper:
                 if content_file.type == "dir":
                     files_data += recursive_fetch_files(repo, repo.get_contents(content_file.path))
                 else:
+                    # Check if file type is in selected file types
                     if any(content_file.name.endswith(file_type) for file_type in self.selected_file_types):
-                        file_content = f"\n'''--- {content_file.path} ---\n"
+                        file_content = ""
+                        file_content += f"\n'''--- {content_file.path} ---\n"
 
                         if content_file.encoding == "base64":
                             try:
                                 file_content += content_file.decoded_content.decode("utf-8")
-                            except UnicodeDecodeError:
+                            except UnicodeDecodeError: # catch decoding errors
                                 file_content += "[Content not decodable]"
                         elif content_file.encoding == "none":
+                            # Handle files with encoding "none" here
                             print(f"Warning: Skipping {content_file.path} due to unsupported encoding 'none'.")
                             continue
                         else:
+                            # Handle other unexpected encodings here
                             print(f"Warning: Skipping {content_file.path} due to unexpected encoding '{content_file.encoding}'.")
                             continue
 
@@ -57,7 +61,6 @@ class GithubRepoScraper:
             return files_data
 
         github_instance = Github(self.github_api_key)
-        print(f"Fetching repository: {self.repo_name}")
         repo = github_instance.get_repo(self.repo_name)
         contents = repo.get_contents("")
         files_data = recursive_fetch_files(repo, contents)
@@ -79,6 +82,7 @@ class GithubRepoScraper:
         """Built .txt file with all of the repo's files"""
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         filename = f"/app/data/{self.repo_name.replace('/', '_')}_{timestamp}.txt"
+        print(f"Writing to file: {filename}")
         with open(filename, "w", encoding='utf-8') as f:
             doc_text = self.scrape_doc()
             if doc_text:
@@ -100,7 +104,11 @@ class GithubRepoScraper:
     def run(self):
         """Run RepoToText."""
         print("Fetching all files...")
-        files_data = self.fetch_all_files()
+        try:
+            files_data = self.fetch_all_files()
+        except GithubException as e:
+            print(f"GitHub exception: {e}")
+            raise
 
         print("Writing to file...")
         filename = self.write_to_file(files_data)
@@ -125,14 +133,20 @@ def scrape():
 
     repo_name = repo_url.split('github.com/')[-1]  # Extract repo name from URL
 
+    print(f"Received request to scrape repo: {repo_name}")
     scraper = GithubRepoScraper(repo_name, doc_url, selected_file_types)
     try:
         filename = scraper.run()
-        with open(filename, 'r', encoding='utf-8') as file:
-            file_content = file.read()
-        return jsonify({"response": file_content})
     except GithubException as e:
         return jsonify({"error": str(e)}), 500
 
+    with open(filename, 'r', encoding='utf-8') as file:
+        file_content = file.read()
+
+    return jsonify({"response": file_content})
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
+
+# if __name__ == "__main__": -- UNCOMMENT TO RUN LOCALLY WITHOUT DOCKER
+#     app.run(port=5000)
