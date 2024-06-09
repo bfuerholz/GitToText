@@ -12,12 +12,10 @@ function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const FILE_TYPES = [
-    '.txt', '.py', '.js', '.sql', '.env', '.json', '.html', '.css', '.md', 
-    '.java', '.cpp', '.c', '.cs', '.php', '.rb', '.xml', '.yml', '.sh', 
-    '.swift', '.h', '.pyw', '.asm', '.bat', '.cmd', '.cls', '.coffee', 
-    '.erb', '.go', '.groovy', '.htaccess', '.jsp', '.lua', '.make', 
-    '.matlab', '.pas', '.perl', '.pl', '.ps1', '.r', '.scala', '.scm', 
-    '.sln', '.svg', '.vb', '.vbs', '.xhtml', '.xsl'
+    '.txt', '.py', '.js', '.sql', '.env', '.json', '.html', '.css', '.md', '.java', '.cpp', '.c', '.cs', 
+    '.php', '.rb', '.xml', '.yml', '.sh', '.swift', '.h', '.pyw', '.asm', '.bat', '.cmd', '.cls', '.coffee', 
+    '.erb', '.go', '.groovy', '.htaccess', '.jsp', '.lua', '.make', '.matlab', '.pas', '.perl', '.pl', 
+    '.ps1', '.r', '.scala', '.scm', '.sln', '.svg', '.vb', '.vbs', '.xhtml', '.xsl',
   ];
 
   const handleRepoChange = (e) => setRepoUrl(e.target.value);
@@ -31,7 +29,6 @@ function App() {
   };
 
   const handleFileSelectionChange = (e) => setFileSelection(e.target.value);
-
   const handleAddFileType = () => {
     if (customFileType && !FILE_TYPES.includes(customFileType)) {
       FILE_TYPES.push(customFileType);

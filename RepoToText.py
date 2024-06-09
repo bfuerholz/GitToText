@@ -1,11 +1,16 @@
-import argparse
 import os
 from datetime import datetime
 import re
 from github import Github, RateLimitExceededException
 from bs4 import BeautifulSoup
 import requests
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from requests.exceptions import RequestException
 from retry import retry
+
+app = Flask(__name__)
+CORS(app)
 
 class GithubRepoScraper:
     """Scrape GitHub repositories."""
@@ -63,7 +68,7 @@ class GithubRepoScraper:
             page = requests.get(self.doc_link, timeout=10)
             soup = BeautifulSoup(page.content, 'html.parser')
             return soup.get_text(separator="\n")
-        except requests.RequestException as e:
+        except RequestException as e:
             print(f"Error fetching documentation: {e}")
             return ""
 
@@ -103,15 +108,30 @@ class GithubRepoScraper:
         print("Done.")
         return filename
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Scrape GitHub repo and generate text file.')
-    parser.add_argument('--repo_url', type=str, required=True, help='GitHub repository URL')
-    parser.add_argument('--doc_url', type=str, required=False, help='Documentation URL')
-    parser.add_argument('--file_types', type=str, required=False, help='Comma separated list of file types')
+@app.route('/scrape', methods=['POST'])
+def scrape():
+    """Scrape GitHub repositories."""
+    data = request.get_json()
 
-    args = parser.parse_args()
-    repo_name = args.repo_url.split('github.com/')[-1]
-    selected_file_types = args.file_types.split(',') if args.file_types else []
+    repo_url = data.get('repoUrl')
+    doc_url = data.get('docUrl')
+    selected_file_types = data.get('selectedFileTypes', [])
 
-    scraper = GithubRepoScraper(repo_name, args.doc_url, selected_file_types)
-    scraper.run()
+    if not repo_url:
+        return jsonify({"error": "Repo URL not provided."}), 400
+
+    repo_name = repo_url.split('github.com/')[-1]  # Extract repo name from URL
+
+    scraper = GithubRepoScraper(repo_name, doc_url, selected_file_types)
+    filename = scraper.run()
+
+    with open(filename, 'r', encoding='utf-8') as file:
+        file_content = file.read()
+
+    return jsonify({"response": file_content})
+
+if __name__ == "__main__": # -- UNCOMMENT TO RUN WITH DOCKER
+    app.run(host='0.0.0.0')
+
+# if __name__ == "__main__": -- UNCOMMENT TO RUN LOCALLY WITHOUT DOCKER
+#     app.run(port=5000)
