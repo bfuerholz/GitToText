@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 import re
-from github import Github, RateLimitExceededException
+from github import Github, RateLimitExceededException, GithubException
 from bs4 import BeautifulSoup
 import requests
 from flask import Flask, request, jsonify
@@ -31,22 +31,18 @@ class GithubRepoScraper:
                 if content_file.type == "dir":
                     files_data += recursive_fetch_files(repo, repo.get_contents(content_file.path))
                 else:
-                    # Check if file type is in selected file types
                     if any(content_file.name.endswith(file_type) for file_type in self.selected_file_types):
-                        file_content = ""
-                        file_content += f"\n'''--- {content_file.path} ---\n"
+                        file_content = f"\n'''--- {content_file.path} ---\n"
 
                         if content_file.encoding == "base64":
                             try:
                                 file_content += content_file.decoded_content.decode("utf-8")
-                            except UnicodeDecodeError: # catch decoding errors
+                            except UnicodeDecodeError:
                                 file_content += "[Content not decodable]"
                         elif content_file.encoding == "none":
-                            # Handle files with encoding "none" here
                             print(f"Warning: Skipping {content_file.path} due to unsupported encoding 'none'.")
                             continue
                         else:
-                            # Handle other unexpected encodings here
                             print(f"Warning: Skipping {content_file.path} due to unexpected encoding '{content_file.encoding}'.")
                             continue
 
@@ -55,6 +51,7 @@ class GithubRepoScraper:
             return files_data
 
         github_instance = Github(self.github_api_key)
+        print(f"Fetching repository: {self.repo_name}")
         repo = github_instance.get_repo(self.repo_name)
         contents = repo.get_contents("")
         files_data = recursive_fetch_files(repo, contents)
@@ -123,15 +120,13 @@ def scrape():
     repo_name = repo_url.split('github.com/')[-1]  # Extract repo name from URL
 
     scraper = GithubRepoScraper(repo_name, doc_url, selected_file_types)
-    filename = scraper.run()
+    try:
+        filename = scraper.run()
+        with open(filename, 'r', encoding='utf-8') as file:
+            file_content = file.read()
+        return jsonify({"response": file_content})
+    except GithubException as e:
+        return jsonify({"error": str(e)}), 500
 
-    with open(filename, 'r', encoding='utf-8') as file:
-        file_content = file.read()
-
-    return jsonify({"response": file_content})
-
-if __name__ == "__main__": # -- UNCOMMENT TO RUN WITH DOCKER
+if __name__ == "__main__":
     app.run(host='0.0.0.0')
-
-# if __name__ == "__main__": -- UNCOMMENT TO RUN LOCALLY WITHOUT DOCKER
-#     app.run(port=5000)
