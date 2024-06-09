@@ -8,9 +8,13 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from requests.exceptions import RequestException
 from retry import retry
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 CORS(app)
+
+# Laden der Umgebungsvariablen aus der .env-Datei
+load_dotenv()
 
 class GithubRepoScraper:
     """Scrape GitHub repositories."""
@@ -18,6 +22,8 @@ class GithubRepoScraper:
         if selected_file_types is None:
             selected_file_types = []
         self.github_api_key = os.getenv("GITHUB_API_KEY")
+        if not self.github_api_key:
+            raise ValueError("GITHUB_API_KEY is not set in the environment.")
         self.repo_name = repo_name
         self.doc_link = doc_link
         self.selected_file_types = selected_file_types
